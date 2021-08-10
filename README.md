@@ -23,9 +23,11 @@
 
 ### How to run/build the project
 - run
+
 npm i
 npm start
 
 - build
+
 npm i
 npm run build
