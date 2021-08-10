@@ -7,8 +7,8 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "unset",
     color: "aliceblue",
-    fontSize: '20px',
-    marginRight: '50px'
+    fontSize: "20px",
+    marginRight: "50px",
   },
   activeLink: {
     textDecoration: "underline",

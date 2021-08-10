@@ -15,7 +15,7 @@ export const getCurrencyNames = async () => {
 
 export const getConversionRate = async (date, currency = "usd") => {
   try {
-    const dateStr = date ?? 'latest';
+    const dateStr = date ?? "latest";
     const resp = await axios.get(
       `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/${dateStr}/currencies/${currency}.json`
     );
@@ -36,14 +36,14 @@ export const getRateBetween2 = async (fromCur, toCur) => {
   } catch (error) {
     console.error("Error occured in getConversionRate function : ", error);
   }
-}
+};
 
 export const getRequiredDates = () => {
-  const dates = ['latest'], yesterday = new Date();
-  for(let i = 1; i < 30; ++i) {
+  const dates = ["latest"],
+    yesterday = new Date();
+  for (let i = 1; i < 30; ++i) {
     yesterday.setDate(yesterday.getDate() - 1);
     dates.push(moment(yesterday).format("YYYY-MM-DD"));
   }
-  //console.log({dates});
   return dates;
-}
+};

@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
   Box,
@@ -8,7 +7,9 @@ import {
   CardContent,
   Grid,
 } from "@material-ui/core";
-import { UpArrow, DownArrow } from "../../../elements/arrow";
+import { makeStyles } from "@material-ui/core/styles";
+
+import { UpArrow, DownArrow } from "../../../elements/Arrow";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     gap: "20px",
     paddingRight: "40px",
     paddingLeft: "40px",
-    flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
   headerGray: {
     backgroundColor: `rgb(238,238,238)`,
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CurrencyCard = ({ name, abbr, yesterdayValue, todayValue, diff }) => {
   const classes = useStyles();
+
   return (
     <Grid item xs={12} sm={12} md={6}>
       <Card classes={{ root: classes.fullHeight }}>

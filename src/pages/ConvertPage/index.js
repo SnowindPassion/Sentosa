@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import { Grid, TextField, Button, Box } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import React from "react";
+
+import { Grid, Button, Box, TextField } from "@material-ui/core";
+
 import { withStyles } from "@material-ui/core/styles";
+
 import { CurrencyContext } from "../../context/CurrencyProvider";
 import { getRateBetween2 } from "../../helpers/api";
 import PContainer from "../../elements/PContainer";
-const biDirectionArrow = require("../../svg/bi-directional-arrow.svg");
+import biDirectionArrow from "../../elements/svg/bi-directional-arrow.svg";
+import Selector from "../../elements/Selector";
+
 const styles = (theme) => ({
   buttonWidth: {
     minWidth: "46px",
@@ -27,41 +31,11 @@ const styles = (theme) => ({
     marginBottom: "20px",
   },
 });
-const Selector = ({ label, value, setValue, currencyList, id }) => {
-  const [val, setVal] = useState('');
-
-  return (
-    <Autocomplete
-      value={value}
-      onChange={(event, newValue) => {
-        //console.log({ newValue });
-        setValue(newValue);
-      }}
-      inputValue={val}
-      onInputChange={(event, newInputValue) => {
-        //console.log({ newInputValue });
-        setVal(newInputValue);
-      }}
-      id={id}
-      options={currencyList}
-      getOptionLabel={(option) => option ?? ''}
-      // getOptionSelected = {(option, value) => {
-      //   // console.log({option, value});
-      //   return (option === value);
-      // }}
-      renderInput={(params) => {
-        //console.log({ params });
-        return <TextField {...params} label={label} variant="outlined" />;
-      }}
-    />
-  );
-};
 
 class ConvertPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: 1, fromCur: "", toCur: "", conversionRate: 1 };
-    this.handleCountChange = this.handleCountChange.bind(this);
     this.onSwap = this.onSwap.bind(this);
   }
 
@@ -80,11 +54,13 @@ class ConvertPage extends React.Component {
       this.setState({ conversionRate: result });
     });
   }
-  handleCountChange(e) {
+
+  handleCountChange = (e) => {
     this.setState({ value: e.target.value });
-  }
+  };
+
   onSwap() {
-    const { fromCur, toCur} = this.state;
+    const { fromCur, toCur } = this.state;
     this.setState({ fromCur: toCur, toCur: fromCur });
   }
 
@@ -127,7 +103,7 @@ class ConvertPage extends React.Component {
                       <Selector
                         id="fromCurrency"
                         value={this.state.fromCur}
-                        setValue={(val) => this.setState({fromCur: val})}
+                        setValue={(val) => this.setState({ fromCur: val })}
                         currencyList={getCurrencyList(currencyNames)}
                       />
                     </Grid>
@@ -140,7 +116,7 @@ class ConvertPage extends React.Component {
                           classes={{ root: classes.buttonWidth }}
                           onClick={this.onSwap}
                         >
-                          <img src={biDirectionArrow} alt='Swap'/>
+                          <img src={biDirectionArrow} alt="Swap" />
                         </Button>
                       </Box>
                     </Grid>
@@ -148,7 +124,7 @@ class ConvertPage extends React.Component {
                       <Selector
                         id="toCurrency"
                         value={this.state.toCur}
-                        setValue={(val) => this.setState({toCur: val})}
+                        setValue={(val) => this.setState({ toCur: val })}
                         currencyList={getCurrencyList(currencyNames)}
                       />
                     </Grid>
@@ -193,4 +169,5 @@ class ConvertPage extends React.Component {
     );
   }
 }
+
 export default withStyles(styles, { withTheme: true })(ConvertPage);

@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import {
-  Typography,
-  Box,
-  TextField,
-  Grid,
-} from "@material-ui/core";
-import moment from "moment";
+import { Typography, Box, TextField, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
+import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
-import { getConversionRate} from "../../helpers/api";
+
+import { getConversionRate } from "../../helpers/api";
 import { CurrencyCard } from "./components";
 import { CurrencyContext } from "../../context/CurrencyProvider";
 import PContainer from "../../elements/PContainer";
@@ -36,13 +33,19 @@ const useStyles = makeStyles((theme) => ({
   bolder: {
     fontWeight: "bolder",
   },
+  cardContainer: {
+    marginTop: "0px",
+    marginBottom: "0px",
+  },
 }));
 
 const BiggestMoversPage = () => {
   const classes = useStyles();
   const { currencyNames } = useContext(CurrencyContext);
+
   const [count, setCount] = useState(3);
   const [conversionRateInfo, setConversionRateInfo] = useState([]);
+
   const handleCountChange = (e) => setCount(e.target.value);
 
   const rateDiff = useMemo(() => {
@@ -59,8 +62,9 @@ const BiggestMoversPage = () => {
       });
     }
     result.sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff));
-    return result; 
+    return result;
   }, [conversionRateInfo, currencyNames]);
+
   const getData = async () => {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -70,21 +74,22 @@ const BiggestMoversPage = () => {
     const todayRateInfo = await getConversionRate();
     const rateInfo2 = [todayRateInfo, yesterdayRateInfo];
     setConversionRateInfo(rateInfo2);
-    //console.log({ rateInfo2 });
   };
+
   useEffect(() => {
     getData();
   }, []);
+
   return (
     <PContainer>
-      <header>
+      <Box>
         <Typography variant="h5" className={classes.bolder}>
           Biggest Movers
         </Typography>
         <Typography variant="h6" color="textSecondary">
           since yesterday
         </Typography>
-      </header>
+      </Box>
       {/* Select Count */}
       <Box
         display="flex"
@@ -111,21 +116,23 @@ const BiggestMoversPage = () => {
         />
       </Box>
       {/* Show Currency Cards */}
-      <Grid container spacing={10}>
-        {rateDiff &&
-          rateDiff
-            .slice(0, count)
-            .map((info) => (
-              <CurrencyCard
-                name={currencyNames[info.curName]}
-                abbr={info.curName}
-                diff={info.diff}
-                todayValue={conversionRateInfo[0][info.curName]}
-                yesterdayValue={conversionRateInfo[1][info.curName]}
-                key={uuidv4()}
-              />
-            ))}
-      </Grid>
+      <Box>
+        <Grid container spacing={10} className={classes.cardContainer}>
+          {rateDiff &&
+            rateDiff
+              .slice(0, count)
+              .map((info) => (
+                <CurrencyCard
+                  name={currencyNames[info.curName]}
+                  abbr={info.curName}
+                  diff={info.diff}
+                  todayValue={conversionRateInfo[0][info.curName]}
+                  yesterdayValue={conversionRateInfo[1][info.curName]}
+                  key={uuidv4()}
+                />
+              ))}
+        </Grid>
+      </Box>
     </PContainer>
   );
 };

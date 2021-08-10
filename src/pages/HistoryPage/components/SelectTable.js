@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "hidden",
     border: "1px solid rgba(224, 224, 224, 1)",
     backgroundColor: "aliceblue",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   tableCaption: {
     display: "flex",
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     paddingRight: "25px",
   },
-  tabelCellBorder: {
+  tableCellBorder: {
     borderBottom: "0px",
     borderLeft: "1px solid rgba(224, 224, 224, 1)",
     minWidth: "35px",
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TabelCellSelect = ({ currency, selected, setSelected }) => {
+const TableCellSelect = ({ currency, selected, setSelected }) => {
   const classes = useStyles();
   const [mouseOver, setMouseOver] = useState(false);
   const handleChange = (event) => {
@@ -67,7 +67,7 @@ const TabelCellSelect = ({ currency, selected, setSelected }) => {
       align="center"
       onMouseOver={onMouseOver}
       onMouseLeave={onMouseLeave}
-      className={classes.tabelCellBorder}
+      className={classes.tableCellBorder}
     >
       {(mouseOver || selected === currency) && (
         <Checkbox
@@ -90,7 +90,6 @@ const SelectTable = () => {
   const fromCurrency = useSelector(getFromCurrency);
   const toCurrency = useSelector(getToCurrency);
 
-  //console.log({ currencyNames });
   return (
     <Grid item xs={12} sm={6} md={6}>
       <Typography variant="h5">Conversion History</Typography>
@@ -98,25 +97,20 @@ const SelectTable = () => {
         <span className={classes.gray}>From</span>
         <span className={classes.gray}>To</span>
       </Grid>
-      <Grid
-        item={1}
-        container
-        className={classes.container}
-        
-      >
+      <Grid item container className={classes.container}>
         <Table aria-label="currency table" className={classes.backgroundColor}>
           <TableBody>
             {Object.keys(currencyNames).map((abbr, index) => (
               <TableRow key={uuid()}>
-                <TabelCellSelect
+                <TableCellSelect
                   selected={fromCurrency}
                   setSelected={setFrom}
                   currency={abbr}
                 />
-                <TableCell align="center" className={classes.tabelCellBorder}>
+                <TableCell align="center" className={classes.tableCellBorder}>
                   {currencyNames[abbr]}
                 </TableCell>
-                <TabelCellSelect
+                <TableCellSelect
                   selected={toCurrency}
                   setSelected={setTo}
                   currency={abbr}

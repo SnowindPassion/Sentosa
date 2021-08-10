@@ -3,22 +3,32 @@ import { getCurrencyNames } from "../helpers/api";
 
 const CurrencyContext = React.createContext({});
 
-const CurrencyProvider = (props) => {
+const CurrencyProvider = ({ children }) => {
   const [currencyNames, setCurrencyNames] = useState({});
   const [conversionHistory, setConversionHistory] = useState({});
-  
+
   useEffect(() => {
-    try {
-      getCurrencyNames().then(curNames => {
+    const fetchData = async () => {
+      try {
+        const curNames = await getCurrencyNames();
         setCurrencyNames(curNames);
-      });
-    } catch (error) {
-      console.error('GetCurrencyNames', error);
-    }
-  }, [])
+      } catch (error) {
+        console.error("GetCurrencyNames", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
-    <CurrencyContext.Provider value={{currencyNames, setCurrencyNames, conversionHistory, setConversionHistory}}>
-      {props.children}
+    <CurrencyContext.Provider
+      value={{
+        currencyNames,
+        setCurrencyNames,
+        conversionHistory,
+        setConversionHistory,
+      }}
+    >
+      {children}
     </CurrencyContext.Provider>
   );
 };
