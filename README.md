@@ -21,7 +21,7 @@
     - CurrencyConversionRate - High Performance with the specified Algorithm(caching, minimize the number of http requests)
     - Avoid re-calculation using useMemo
 
-### How to run the project
+### How to run/build the project
 - run
 
 npm start
