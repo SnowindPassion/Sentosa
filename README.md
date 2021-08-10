@@ -23,7 +23,7 @@
 
 ### How to run the project
 - run
-npm start
+    npm start
 
 - build
-npm run build
+    npm run build
