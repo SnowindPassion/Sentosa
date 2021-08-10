@@ -24,5 +24,6 @@
 ### How to run the project
 - run
 npm start
+
 - build
 npm run build
