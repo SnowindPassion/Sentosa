@@ -1,14 +1,11 @@
 import React, { useEffect, useMemo, useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import {
-  Grid, 
+  Grid,
   Table,
   TableCell,
-
   TableBody,
   TableRow,
-
-
   Typography,
 } from "@material-ui/core";
 import {
@@ -44,9 +41,9 @@ const useStyles = makeStyles((theme) => ({
     color: "gray",
   },
   chartContainer: {
-    justifyContent: 'center',
-    display: 'flex'
-  }
+    justifyContent: "center",
+    display: "flex",
+  },
 }));
 
 const TableCELL = (props) => {
@@ -68,7 +65,7 @@ const ConversionHistory = () => {
     useContext(CurrencyContext);
 
   const dates = useMemo(() => getRequiredDates(), []);
-  
+
   useEffect(() => {
     const getHistory = async () => {
       //console.log("getHistory Called");
@@ -88,7 +85,7 @@ const ConversionHistory = () => {
           newConversionHistory[dates[index]][fromCurrency] = { ...res };
         });
         setConversionHistory(newConversionHistory);
-  
+
         const newHistoryData = dates.map((date) => {
           return {
             date,
@@ -107,7 +104,10 @@ const ConversionHistory = () => {
     //console.log({ len: len, fromCurrency, toCurrency });
     if (!len || !fromCurrency || !toCurrency) setHistoryData([]);
     else getHistory();
-  }, [fromCurrency, toCurrency, currencyNames, conversionHistory, dates, setChartDomain, setConversionHistory, setHistoryData]);
+  }, [
+    fromCurrency,
+    toCurrency,
+  ]);
 
   return (
     <>

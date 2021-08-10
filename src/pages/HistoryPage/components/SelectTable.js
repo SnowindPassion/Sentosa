@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "hidden",
     border: "1px solid rgba(224, 224, 224, 1)",
     backgroundColor: "aliceblue",
+    flexDirection: "column"
   },
   tableCaption: {
     display: "flex",
@@ -101,7 +102,7 @@ const SelectTable = () => {
         item={1}
         container
         className={classes.container}
-        flexDirection="column"
+        
       >
         <Table aria-label="currency table" className={classes.backgroundColor}>
           <TableBody>
