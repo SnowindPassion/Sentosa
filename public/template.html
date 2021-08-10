@@ -1,0 +1,182 @@
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- For the full list of available Crowd HTML Elements and their input/output documentation,
+      please refer to https://docs.aws.amazon.com/sagemaker/latest/dg/sms-ui-template-reference.html -->
+
+<!-- You must include crowd-form so that your task submits answers to MTurk -->
+<crowd-form>
+  <p>
+    <font size="+3"><strong>Instructions: </strong></font>
+    <font size="+2">Which video are you more likely to click on?</font>
+  </p>
+  <br /><br />
+
+  <table id="image_table" style="margin-left: auto; margin-right: auto">
+    <tr>
+      <th data-column="1" colspan="2" style="padding-right: 50px" align="left">
+        <label for="radio1">
+            <img
+                class="video"
+                width="360"
+                height="202"
+                id="vid1"
+                src="VAR1"
+                alt="NAME1"
+                style="border: 3px solid white"
+            />
+        </label>
+      </th>
+      <th data-column="2" colspan="2" align="left">
+        <label for="radio2">
+            <img
+                class="video"
+                width="360"
+                height="202"
+                id="vid2"
+                src="VAR2"
+                alt="NAME2"
+                style="border: 3px solid white"
+            />
+        </label>
+      </th>
+    </tr>
+    <tr>
+      <td
+        data-column="1"
+        style="
+          vertical-align: top;
+          width: 50;
+          white-space: nowrap;
+          padding-right: 0px;">
+        <label for="radio1">
+            <img
+            src="https://i.imgur.com/qVXZILY.png"
+            width="40"
+            height="40"
+            alt="Avatar Placeholder"/>
+        </label>
+      </td>
+      <td data-column="1" style="vertical-align: top">
+        <label for="radio1">
+            <strong><span id="vidtitle1">LEFT TITLE</span></strong>
+        </label>
+      </td>
+      <td
+        data-column="2"
+        style="
+          vertical-align: top;
+          width: 50;
+          white-space: nowrap;
+          padding-right: 0px;
+        ">
+        <label for="radio2">
+            <img
+            src="https://i.imgur.com/qVXZILY.png"
+            width="40"
+            height="40"
+            alt="Avatar Placeholder"/>
+        </label>
+      </td>
+      <td data-column="2">
+        <label for="radio2"><strong><span id="vidtitle2">RIGHT TITLE</span></strong></label>
+      </td>
+    </tr>
+    <tr style="display: none">
+      <!-- To show the radio button, remove everything except the tr so the tag looks like <tr> -->
+      <td data-column="1">
+        <input
+          type="radio"
+          name="image_selection"
+          id="radio1"
+          value="NAME1"
+          required
+        />
+        <label for="radio1">Select this video</label>
+      </td>
+      <td data-column="2">
+        <input type="radio" name="image_selection" id="radio2" value="NAME2" />
+        <label for="radio2">Select this video</label>
+      </td>
+    </tr>
+  </table>
+  <p><input type="hidden" name="leftimage" id="leftimage" value="NAME" /></p>
+</crowd-form>
+
+<script type="application/javascript">
+  /*
+	  Insert list of images/titles here. Should be formatted as
+	  [["image_title_1","image_url_1"],["image_title_2","image_url_2"]...["image_title_n","image_url_n"]];
+	  If you want to hardcode the control items (so that you don't have to input a CSV each time), you can do that here as well
+	  Replace all {varname} structures to remove the CSV requirement.
+	*/
+  var image_array = [
+    [
+      "How To Exceed Infinity",
+      "https://mturkimagestest.s3.us-east-2.amazonaws.com/Test_1",
+    ],
+    [
+      "The Secret of Synchronisation",
+      "https://mturkimagestest.s3.us-east-2.amazonaws.com/Test_2",
+    ],
+  ];
+  var image_for_comparison =
+    image_array[Math.floor(Math.random() * image_array.length)]; // Randomly choose an image from the list
+  var image_name = image_for_comparison[0];
+  var image_url = image_for_comparison[1];
+  var image_title = image_name;
+  var control_name = "control";
+  var control_url = "${control_url}";
+  var control_title = "${control_title}";
+
+  var image_first = Math.random() < 0.5;
+
+  if (image_first) {
+    $("#radio1").attr("value", image_name);
+    $("#vid1").attr("src", image_url);
+    $("#vid1").attr("alt", image_name);
+    $("#vidtitle1").text(image_title);
+
+    $("#vidtitle2").text(control_title);
+    $("#radio2").attr("value", control_name);
+    $("#vid2").attr("src", control_url);
+    $("#vid2").attr("alt", control_name);
+    $("#leftimage").attr("value", image_name);
+  } else {
+    $("#radio1").attr("value", control_name);
+    $("#vid1").attr("src", control_url);
+    $("#vid1").attr("alt", control_name);
+    $("#vidtitle1").text(control_title);
+
+    $("#vidtitle2").text(image_title);
+    $("#radio2").attr("value", image_name);
+    $("#vid2").attr("src", image_url);
+    $("#vid2").attr("alt", image_name);
+    $("#leftimage").attr("value", control_name);
+  }
+
+  // Highlight column javascript
+  $("#image_table tr td").click(function () {
+    //Reset
+    $("#image_table img.video").css("border", "3px solid white");
+    //Add highlight class to new column
+    var index = $(this).index();
+    $("#image_table tr").each(function (i, tr) {
+      $(tr).find("img.video").eq(index).css("border", "3px solid green");
+    });
+  });
+</script>
+
+
+<!-- 
+    [
+  {
+    "image_selection": {
+      "How To Exceed Infinity": false,
+      "control": true
+    },
+    "leftimage": "control"
+  }
+]
+ -->

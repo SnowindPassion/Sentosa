@@ -1,0 +1,7 @@
+Using the provided HackerNews API, pull data from the API and display a list of top stories. Each story should follow the following format, please see below. The title of the article should be clickable, pointing to the news article.
+
+Honda-Waymo Talks Are Said to Have Faltered on Tech Access (bloomberg.com)
+58 points by MyUserName hour ago | 44 comments
+
+The Reason We Haven’t Directly Detected Dark Matter (medium.com)
+246 points by AnotherUserName 11 hours ago | hide | 198 comments
