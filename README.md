@@ -20,3 +20,9 @@
 - Performance
     - CurrencyConversionRate - High Performance with the specified Algorithm(caching, minimize the number of http requests)
     - Avoid re-calculation using useMemo
+
+### How to run the project
+- run
+npm start
+- build
+npm run build
